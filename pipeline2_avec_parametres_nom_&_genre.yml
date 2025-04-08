@@ -1,39 +1,60 @@
 pipeline {
-agent any
-parameters {
-string(name: 'NAME', description: 'Please tell me your name')
-choice(name: 'GENDER', choices: ['Male', 'Female'], description: 'Choose Gender')
-}
-stages {
-    stage('Printing name') {
-        steps {
-            script {
-                def name = "${params.NAME}"
-                def gender = "${params.GENDER}"
-                if(gender == "Male") {
-                echo "Mr. $name"
-                        }
-                else {
-                echo "Mrs. $name"
+    agent any
+
+    parameters {
+        string(name: 'NAME', description: 'Quel est ton prénom ?')
+        choice(name: 'GENDER', choices: ['Male', 'Female'], description: 'Genre')
+        choice(name: 'ENV', choices: ['dev', 'test', 'prod'], description: 'Environnement de déploiement')
+    }
+
+    environment {
+        GREETING = ''
+    }
+
+    stages {
+        stage('Bonjour personnalisé') {
+            steps {
+                script {
+                    def name = params.NAME
+                    def gender = params.GENDER
+                    if (gender == "Male") {
+                        env.GREETING = "Bonjour Mr. ${name}"
+                    } else {
+                        env.GREETING = "Bonjour Mme ${name}"
+                    }
+                    echo "${env.GREETING}"
                 }
             }
         }
-    }
-   
-    stage('BUILD') {
+
+        stage('BUILD') {
             steps {
-                echo 'Developpement'
+                echo 'Étape de build...'
+                // ex: sh 'npm install' ou './gradlew build'
             }
         }
-        stage('Test') {
+
+        stage('TEST') {
             steps {
-                echo 'Testing'
+                echo 'Exécution des tests...'
+                // ex: sh 'npm test' ou './gradlew test'
             }
         }
+
         stage('DEPLOY') {
-            steps {
-                echo 'Mise en Production'
+            when {
+                expression { return params.ENV == 'prod' }
             }
+            steps {
+                echo "Déploiement en ${params.ENV}..."
+                // ex: sh 'scp app.jar user@prod-server:/app'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline terminé.'
         }
     }
 }
