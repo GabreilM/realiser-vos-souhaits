@@ -3,7 +3,7 @@ pipeline {
 
     parameters {
         string(name: 'USER_NAME', defaultValue: '', description: 'Quel est ton prenom ?')
-        booleanParam(name: 'DAILY_REMINDER', description: 'Souhaites-tu recevoir un rappel quotidien ?')
+        booleanParam(name: 'RAPPEL_QUOTIDIEN', description: 'Souhaites-tu recevoir un rappel quotidien ?')
         booleanParam(name: 'ENCOURAGEMENTS', description: 'Souhaites-tu recevoir des encouragements ?')
         choice(name: 'OBJECTIVE', choices: [
             'Rediger un journal intime', 
@@ -29,8 +29,8 @@ pipeline {
                     echo "Bonjour ${params.USER_NAME}, ton objectif pour ce mois est : ${params.OBJECTIVE}"
 
                     // Afficher un rappel quotidien si l'utilisateur le souhaite
-                    if (params.DAILY_REMINDER) {
-                        def reminders = [
+                    if (params.RAPPEL_QUOTIDIEN) {
+                        def rappels = [
                             "Aujourd’hui, fais un petit pas vers une meilleure version de toi-même.",
                             "Un jour à la fois. L’important, c’est d’avancer.",
                             "Ce que tu fais aujourd’hui construit ton demain.",
@@ -47,8 +47,8 @@ pipeline {
                             "Reste aligné avec ce qui te fait du bien.",
                             "La constance est plus puissante que l’intensité."
                         ]
-                        def reminder = reminders[(int)(Math.random() * reminders.size())]
-                        echo "Rappel quotidien : ${reminder}"
+                        def rappel = rappels[(int)(Math.random() * rappels.size())]
+                        echo "Rappel quotidien : ${rappel}"
                     } else {
                         echo "Tu n'as pas choisi de recevoir un rappel quotidien."
                     }
@@ -56,11 +56,11 @@ pipeline {
                     // Afficher des encouragements si l'utilisateur le souhaite
                     if (params.ENCOURAGEMENTS) {
                         def encouragements = [
-                            "Tu peux le faire, ne lâche rien ! 🔥",
-                            "Chaque petit pas te rapproche de ton objectif 🙌",
-                            "Continue comme ça, tu es sur la bonne voie 💯",
-                            "Un jour à la fois, mais avec détermination 💪",
-                            "Bravo pour tes efforts, ils comptent vraiment 👏"
+                            "Tu peux le faire, ne lâche rien !",
+                            "Chaque petit pas te rapproche de ton objectif.",
+                            "Continue comme ça, tu es sur la bonne voie.",
+                            "Un jour à la fois, mais avec détermination.",
+                            "Bravo pour tes efforts, ils comptent vraiment."
                         ]
                         def encouragement = encouragements[(int)(Math.random() * encouragements.size())]
                         echo "Encouragement : ${encouragement}"
