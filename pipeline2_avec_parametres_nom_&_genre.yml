@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'USER_NAME', description: 'Quel est ton prénom ?')
-        choice(name: 'OBJECTIVE', choices: ['Rédiger un journal', 'Redécorer la maison', 'Prendre soin de soi', 'Faire un marathon', 'Apprendre à jouer d\'un instrument'], description: 'Quel est ton objectif du mois ?')
-        choice(name: 'ENV', choices: ['dev', 'test', 'prod'], description: 'Environnement de déploiement')
+        string(name: 'USER_NAME', description: 'Quel est ton prenom ?')
+        choice(name: 'OBJECTIVE', choices: ['Rediger un journal', 'Redecorer la maison', 'Prendre soin de soi', 'Faire un marathon', 'Apprendre a jouer d\'un instrument'], description: 'Quel est ton objectif du mois ?')
+        choice(name: 'ENV', choices: ['dev', 'test', 'prod'], description: 'Environnement de deploiement')
     }
 
     environment {
@@ -13,21 +13,21 @@ pipeline {
     }
 
     stages {
-        stage('Salut personnalisé') {
+        stage('Salut personnalise') {
             steps {
                 script {
                     def name = params.USER_NAME
                     def objective = params.OBJECTIVE
                     env.USER_OBJECTIVE = objective
-                    if (objective == 'Rédiger un journal') {
-                        env.GREETING = "Bonjour ${name}, prêt à commencer à rédiger ton journal ?"
-                    } else if (objective == 'Redécorer la maison') {
-                        env.GREETING = "Bonjour ${name}, es-tu prêt à redécorer ta maison ?"
+                    if (objective == 'Rediger un journal') {
+                        env.GREETING = "Bonjour ${name}, pret a commencer a rediger ton journal ?"
+                    } else if (objective == 'Redecorer la maison') {
+                        env.GREETING = "Bonjour ${name}, es-tu pret a redécorer ta maison ?"
                     } else if (objective == 'Prendre soin de soi') {
                         env.GREETING = "Bonjour ${name}, n'oublie pas de prendre soin de toi !"
                     } else if (objective == 'Faire un marathon') {
-                        env.GREETING = "Bonjour ${name}, l'entraînement pour ton marathon commence maintenant !"
-                    } else {
+                        env.GREETING = "Bonjour ${name}, l'entrainement pour ton marathon commence maintenant !"
+                    } else if (objective == 'Apprendre a jouer d\'un instrument') {
                         env.GREETING = "Bonjour ${name}, c'est l'heure d'apprendre un instrument !"
                     }
                     echo "${env.GREETING}"
@@ -37,16 +37,16 @@ pipeline {
 
         stage('BUILD') {
             steps {
-                echo 'Étape de construction de l\'application...'
+                echo 'Etape de construction de l\'application...'
                 // ex: sh 'npm install' ou './gradlew build' pour votre app
             }
         }
 
         stage('TEST') {
             steps {
-                echo 'Exécution des tests unitaires et d\'interface...'
+                echo 'Execution des tests unitaires et d\'interface...'
                 // ex: sh 'npm test' ou './gradlew test'
-                // Ajoutez ici des tests spécifiques, comme la vérification de la fonctionnalité de notifications ou d'objectifs atteints.
+                // Ajoutez ici des tests spécifiques, comme la verification de la fonctionnalité de notifications ou d'objectifs atteints.
             }
         }
 
@@ -55,16 +55,16 @@ pipeline {
                 expression { return params.ENV == 'prod' }
             }
             steps {
-                echo "Déploiement en ${params.ENV} pour l'application 'Réaliser Vos Souhaits'..."
+                echo "Deploiement en ${params.ENV} pour l'application 'Realiser Vos Souhaits'..."
                 // ex: sh 'scp app.jar user@prod-server:/app'
-                // Ajoutez des scripts pour déployer l'application dans différents environnements
+                // Ajoutez des scripts pour deployer l'application dans differents environnements
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline terminé. Merci d\'avoir utilisé notre application !'
+            echo 'Pipeline termine. Merci d\'avoir utilise notre application !'
         }
     }
 }
