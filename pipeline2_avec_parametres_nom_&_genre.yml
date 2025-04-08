@@ -3,7 +3,20 @@ pipeline {
 
     parameters {
         string(name: 'USER_NAME', defaultValue: '', description: 'Quel est ton prenom ?')
-        choice(name: 'OBJECTIVE', choices: ['Rediger un journal', 'Redecorer la maison', 'Prendre soin de soi', 'Faire un marathon', 'Apprendre a jouer d\'un instrument'], description: 'Quel est ton objectif du mois ?')
+        choice(name: 'OBJECTIVE', choices: [
+            'Rediger un journal intime', 
+            'Redecorer la maison pour me sentir bien', 
+            'Prendre soin de soi', 
+            'Soyez gentil', 
+            'Faites quelque chose que vous n’avez jamais fait auparavant', 
+            'Passez du temps avec le votre', 
+            'Allez a un concert et dansez', 
+            'Dormir une nuit sur la plage', 
+            'Decouvrez le monde', 
+            'Etudiez', 
+            'Apprenez a jouer d\'un instrument', 
+            'Respirez consciencieusement'
+        ], description: 'Quel est ton objectif du mois ?')
         choice(name: 'ENV', choices: ['dev', 'test', 'prod'], description: 'Environnement de deploiement') // Ajout du choix pour l'environnement
     }
 
@@ -11,8 +24,72 @@ pipeline {
         stage('Salut personnalise') {
             steps {
                 script {
-                    // Directement utiliser les paramètres pour l'affichage du message
+                    // Message de bienvenue personnalise
                     echo "Bonjour ${params.USER_NAME}, ton objectif pour ce mois est : ${params.OBJECTIVE}"
+                }
+            }
+        }
+
+        stage('Details de l\'objectif') {
+            steps {
+                script {
+                    def objectif = params.OBJECTIVE
+                    def description = ""
+
+                    // Attribuer une description detaillee en fonction de l'objectif
+                    switch (objectif) {
+                        case 'Rediger un journal intime':
+                            description = '''Janvier : Rediger un journal intime
+                            Si ce n’est toujours pas le cas, commencez a ecrire un journal. L'ecriture est l'une des meilleures therapie, et apres le tumulte des emotions, rediger un journal est un excellent moyen de mettre de l'ordre dans vos idees. Nous avons vecu une pandemie mondiale, une crise economique, des confinements... dans quelques annees, vous ne le croirez pas !'''
+                            break
+                        case 'Redecorer la maison pour me sentir bien':
+                            description = '''Fevrier : Redecorer la maison pour me sentir bien
+                            Ces dernieres annees, vous avez certainement du passer de longues periodes chez vous confines. Redecorer votre espace peut etre un excellent moyen de vous sentir bien chez vous, et vous apporter une atmosphere plus agreable.'''
+                            break
+                        case 'Prendre soin de soi':
+                            description = '''Mars : Prendre soin de soi
+                            C'est un classique : arreter de fumer, faire plus d'exercice, mieux manger, mediter... Priorisez vous-meme et votre bien-etre. Il n'y a pas d'excuses, ce mois-ci, vous prenez soin de vous !'''
+                            break
+                        case 'Soyez gentil':
+                            description = '''Avril : Soyez gentil
+                            La Covid nous a laisses vulnerables, mais c'est aussi un rappel : soyez gentils avec les autres, et regardez-les dans les yeux. Un sourire peut changer une journee.'''
+                            break
+                        case 'Faites quelque chose que vous n’avez jamais fait auparavant':
+                            description = '''Mai : Faites quelque chose que vous n’avez jamais fait auparavant
+                            Inscrivez-vous a un marathon, prenez des cours de salsa, ou apprenez a crocheter. Ce mois-ci, il est temps d’oser !'''
+                            break
+                        case 'Passez du temps avec le votre':
+                            description = '''Juin : Passez du temps avec les vôtres
+                            L'importance de la famille et des amis. Organisez un week-end ou simplement un diner ensemble. C'est le mois pour profiter de ceux qui vous entourent.'''
+                            break
+                        case 'Allez a un concert et dansez':
+                            description = '''Juillet : Allez a un concert et dansez
+                            Profitez des festivals et des vacances d'été pour passer du bon temps. Un concert, une danse sous les etoiles, c'est la vie !'''
+                            break
+                        case 'Dormir une nuit sur la plage':
+                            description = '''Aout : Dormir une nuit sur la plage
+                            Passez une nuit a la belle etoile sur la plage, avec votre famille ou vos amis. Un moment unique a vivre en pleine nature.'''
+                            break
+                        case 'Decouvrez le monde':
+                            description = '''Septembre : Decouvrez le monde
+                            Sortez de votre zone de confort et explorez de nouveaux horizons. Que ce soit un sentier de randonnee ou une aventure a l'autre bout du monde, le voyage est toujours une experience enrichissante.'''
+                            break
+                        case 'Etudiez':
+                            description = '''Octobre : Etudiez
+                            Il est temps d’apprendre de nouvelles choses, que ce soit par des cours en ligne ou en autodidacte. Nourrissez votre curiosite !'''
+                            break
+                        case 'Apprenez a jouer d\'un instrument':
+                            description = '''Novembre : Apprenez a jouer d'un instrument
+                            Pourquoi ne pas essayer le ukulele ? Facile a apprendre et fun a jouer, il apportera de la joie dans votre vie musicale.'''
+                            break
+                        case 'Respirez consciencieusement':
+                            description = '''Decembre : Respirez consciencieusement
+                            Prenez quelques minutes chaque jour pour vous concentrer sur votre respiration. Cela vous ancrera dans le moment present et vous apportera de la serenite.'''
+                            break
+                    }
+
+                    // Afficher la description de l'objectif
+                    echo "Description de l'objectif :\n${description}"
                 }
             }
         }
@@ -28,7 +105,7 @@ pipeline {
             steps {
                 echo 'Execution des tests unitaires et d\'interface...'
                 // ex: sh 'npm test' ou './gradlew test'
-                // Ajoutez ici des tests spécifiques, comme la verification de la fonctionnalité de notifications ou d'objectifs atteints.
+                // Ajoutez ici des tests specifiques, comme la verification de la fonctionnalite de notifications ou d'objectifs atteints.
             }
         }
 
