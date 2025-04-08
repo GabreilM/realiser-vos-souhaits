@@ -1,28 +1,33 @@
-import os
 import time
+import sys
 
 def build():
-    print("🔨 Étape BUILD : Compilation de l'application...")
+    print(" Étape BUILD : Compilation de l'application...")
     time.sleep(2)
-    print("✅ Compilation terminée.")
+    print(" Compilation terminée.")
 
 def test():
-    print("🧪 Étape TEST : Lancement des tests...")
+    print(" Étape TEST : Lancement des tests...")
     time.sleep(2)
-    # Simuler un test qui passe
-    test_result = True
-    if test_result:
-        print("✅ Tous les tests sont passés.")
-    else:
-        print("❌ Des tests ont échoué.")
-        exit(1)
+    print(" Tous les tests sont passés.")
 
 def deploy():
-    print("🚀 Étape DEPLOY : Déploiement de l'application...")
+    print(" Étape DEPLOY : Déploiement de l'application...")
     time.sleep(2)
-    print("✅ Déploiement effectué avec succès.")
+    print(" Déploiement terminé.")
 
 if name == "main":
-    build()
-    test()
-    deploy()
+    if len(sys.argv) < 2:
+        print(" Veuillez spécifier une étape à exécuter : build, test, deploy")
+        sys.exit(1)
+
+    step = sys.argv[1]
+    if step == "build":
+        build()
+    elif step == "test":
+        test()
+    elif step == "deploy":
+        deploy()
+    else:
+        print(f" Étape inconnue : {step}")
+        sys.exit(1)
