@@ -1,7 +1,6 @@
 import datetime
 import random
 
-# Définir les objectifs mensuels
 objectifs = {
     "Janvier": "Bouge ton corps ! 5 séances de sport par semaine pour ton moral et ton corps :muscle:",
     "Février": "Marche vers le bien-être ! 10 000 pas par jour, chaque pas compte :man_walking:",
