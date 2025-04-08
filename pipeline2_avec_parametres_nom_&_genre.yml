@@ -2,23 +2,16 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'USER_NAME', description: 'Quel est ton prenom ?')
+        string(name: 'USER_NAME', defaultValue: '', description: 'Quel est ton prenom ?')
         choice(name: 'OBJECTIVE', choices: ['Rediger un journal', 'Redecorer la maison', 'Prendre soin de soi', 'Faire un marathon', 'Apprendre a jouer d\'un instrument'], description: 'Quel est ton objectif du mois ?')
-        choice(name: 'ENV', choices: ['dev', 'test', 'prod'], description: 'Environnement de deploiement')
-    }
-
-    environment {
-        GREETING = ''
     }
 
     stages {
         stage('Salut personnalise') {
             steps {
                 script {
-                    def name = params.USER_NAME
-                    def objective = params.OBJECTIVE
-                    env.GREETING = "Bonjour ${name}, ton objectif pour ce mois est : ${objective}"
-                    echo "${env.GREETING}"
+                    // Directement utiliser les paramètres pour l'affichage du message
+                    echo "Bonjour ${params.USER_NAME}, ton objectif pour ce mois est : ${params.OBJECTIVE}"
                 }
             }
         }
