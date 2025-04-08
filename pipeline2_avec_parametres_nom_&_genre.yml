@@ -3,34 +3,13 @@ pipeline {
 
     parameters {
         string(name: 'USER_NAME', description: 'Quel est ton prenom ?')
-        choice(name: 'OBJECTIVE', choices: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'], description: 'Quel est ton objectif du mois ?')
+        choice(name: 'OBJECTIVE', choices: ['Rediger un journal', 'Redecorer la maison', 'Prendre soin de soi', 'Faire un marathon', 'Apprendre a jouer d\'un instrument'], description: 'Quel est ton objectif du mois ?')
         choice(name: 'ENV', choices: ['dev', 'test', 'prod'], description: 'Environnement de deploiement')
     }
 
     environment {
         GREETING = ''
         USER_OBJECTIVE = ''
-        ENCOURAGEMENTS = [
-            "Tu peux le faire, ne lâche rien ! :fire:",
-            "Chaque petit pas te rapproche de ton objectif :raised_hands:",
-            "Continue comme ça, tu es sur la bonne voie :100:",
-            "Un jour à la fois, mais avec détermination :muscle:",
-            "Bravo pour tes efforts, ils comptent vraiment :clap:"
-        ]
-        OBJECTIFS = [
-            "Janvier": "Bouge ton corps ! 5 séances de sport par semaine pour ton moral et ton corps :muscle:",
-            "Février": "Marche vers le bien-être ! 10 000 pas par jour, chaque pas compte :man_walking:",
-            "Mars": "Plonge dans les livres ! Lis un livre par semaine :books:",
-            "Avril": "Fais résonner la musique ! Apprends un instrument :notes:",
-            "Mai": "Partez à la découverte du monde ! Ose l’aventure :earth_africa:",
-            "Juin": "Enrichis ton vocabulaire ! Apprends 10 mots par semaine dans une autre langue :brain:",
-            "Juillet": "Deviens maître de ton budget ! Fixe-toi un objectif financier :moneybag:",
-            "Août": "Savoure les liens ! Organise un repas par semaine avec tes proches :fork_knife_plate:",
-            "Septembre": "Commence la journée en paix ! 5 min de méditation chaque matin :person_in_lotus_position:",
-            "Octobre": "Essaie un nouveau sport ! Découvre-toi autrement :ping_pong:",
-            "Novembre": "Sois la lumière de quelqu’un ! Une bonne action par semaine :sparkles:",
-            "Décembre": "Prends des nouvelles ! Appelle un proche chaque semaine :telephone_receiver:"
-        ]
     }
 
     stages {
@@ -40,43 +19,18 @@ pipeline {
                     def name = params.USER_NAME
                     def objective = params.OBJECTIVE
                     env.USER_OBJECTIVE = objective
-                    if (objective == 'Janvier') {
-                        env.GREETING = "Bonjour ${name}, pret a commencer a bouger ton corps avec 5 seances de sport par semaine ?"
-                    } else if (objective == 'Février') {
-                        env.GREETING = "Bonjour ${name}, es-tu prêt pour marcher vers le bien-être avec 10 000 pas par jour ?"
-                    } else if (objective == 'Mars') {
-                        env.GREETING = "Bonjour ${name}, prêt à plonger dans les livres et lire un livre par semaine ?"
-                    } else if (objective == 'Avril') {
-                        env.GREETING = "Bonjour ${name}, c'est le moment d'apprendre un instrument de musique !"
-                    } else if (objective == 'Mai') {
-                        env.GREETING = "Bonjour ${name}, partons ensemble à la découverte du monde et ose l'aventure !"
+                    if (objective == 'Rediger un journal') {
+                        env.GREETING = "Bonjour ${name}, pret a commencer a rediger ton journal ?"
+                    } else if (objective == 'Redecorer la maison') {
+                        env.GREETING = "Bonjour ${name}, es-tu pret a redécorer ta maison ?"
+                    } else if (objective == 'Prendre soin de soi') {
+                        env.GREETING = "Bonjour ${name}, n'oublie pas de prendre soin de toi !"
+                    } else if (objective == 'Faire un marathon') {
+                        env.GREETING = "Bonjour ${name}, l'entrainement pour ton marathon commence maintenant !"
+                    } else if (objective == 'Apprendre a jouer d\'un instrument') {
+                        env.GREETING = "Bonjour ${name}, c'est l'heure d'apprendre un instrument !"
                     }
                     echo "${env.GREETING}"
-                }
-            }
-        }
-
-        stage('Afficher l\'objectif du mois') {
-            steps {
-                script {
-                    def month = params.OBJECTIVE
-                    def monthlyObjective = env.OBJECTIFS.get(month, "Aucun objectif défini pour ce mois.")
-                    echo ":dart: Objectif de ${month}: ${monthlyObjective}"
-                }
-            }
-        }
-
-        stage('Rappel quotidien') {
-            steps {
-                echo ":date: Rappel quotidien : N'oublie pas ton challenge du mois !"
-            }
-        }
-
-        stage('Affichage des encouragements') {
-            steps {
-                script {
-                    def encouragement = env.ENCOURAGEMENTS[new Random().nextInt(env.ENCOURAGEMENTS.size())]
-                    echo ":love_letter: Message d'encouragement : ${encouragement}"
                 }
             }
         }
@@ -92,6 +46,7 @@ pipeline {
             steps {
                 echo 'Execution des tests unitaires et d\'interface...'
                 // ex: sh 'npm test' ou './gradlew test'
+                // Ajoutez ici des tests spécifiques, comme la verification de la fonctionnalité de notifications ou d'objectifs atteints.
             }
         }
 
@@ -102,6 +57,7 @@ pipeline {
             steps {
                 echo "Deploiement en ${params.ENV} pour l'application 'Realiser Vos Souhaits'..."
                 // ex: sh 'scp app.jar user@prod-server:/app'
+                // Ajoutez des scripts pour deployer l'application dans differents environnements
             }
         }
     }
