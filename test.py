@@ -16,7 +16,6 @@ objectifs = {
     "Décembre": "Prends des nouvelles ! Appelle un proche chaque semaine :telephone_receiver:"
 }
 
-# Liste d'encouragements aléatoires
 encouragements = [
     "Tu peux le faire, ne lâche rien ! :fire:",
     "Chaque petit pas te rapproche de ton objectif :raised_hands:",
