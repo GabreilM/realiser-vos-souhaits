@@ -3,6 +3,9 @@ pipeline {
 
     parameters {
         string(name: 'USER_NAME', defaultValue: '', description: 'Quel est ton prenom ?')
+        booleanParam(name: 'SKIP_TEST', description: 'Veux-tu sauter l\'execution des tests ?')
+        booleanParam(name: 'DAILY_REMINDER', description: 'Souhaites-tu recevoir un rappel quotidien ?')
+        booleanParam(name: 'ENCOURAGEMENTS', description: 'Souhaites-tu recevoir des encouragements ?')
         choice(name: 'OBJECTIVE', choices: [
             'Rediger un journal intime', 
             'Redecorer la maison pour me sentir bien', 
@@ -24,8 +27,19 @@ pipeline {
         stage('Salut personnalise') {
             steps {
                 script {
-                    // Message de bienvenue personnalise
                     echo "Bonjour ${params.USER_NAME}, ton objectif pour ce mois est : ${params.OBJECTIVE}"
+
+                    if (params.DAILY_REMINDER) {
+                        echo "Tu as choisi de recevoir un rappel quotidien !"
+                    } else {
+                        echo "Tu n'as pas choisi de recevoir un rappel quotidien."
+                    }
+
+                    if (params.ENCOURAGEMENTS) {
+                        echo "Tu as choisi de recevoir des encouragements !"
+                    } else {
+                        echo "Tu n'as pas choisi de recevoir des encouragements."
+                    }
                 }
             }
         }
