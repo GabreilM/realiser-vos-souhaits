@@ -4,6 +4,7 @@ pipeline {
     parameters {
         string(name: 'USER_NAME', defaultValue: '', description: 'Quel est ton prenom ?')
         choice(name: 'OBJECTIVE', choices: ['Rediger un journal', 'Redecorer la maison', 'Prendre soin de soi', 'Faire un marathon', 'Apprendre a jouer d\'un instrument'], description: 'Quel est ton objectif du mois ?')
+        choice(name: 'ENV', choices: ['dev', 'test', 'prod'], description: 'Environnement de deploiement') // Ajout du choix pour l'environnement
     }
 
     stages {
