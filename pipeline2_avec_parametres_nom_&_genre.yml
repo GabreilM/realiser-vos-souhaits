@@ -9,7 +9,6 @@ pipeline {
 
     environment {
         GREETING = ''
-        USER_OBJECTIVE = ''
     }
 
     stages {
@@ -18,18 +17,7 @@ pipeline {
                 script {
                     def name = params.USER_NAME
                     def objective = params.OBJECTIVE
-                    env.USER_OBJECTIVE = objective
-                    if (objective == 'Rediger un journal') {
-                        env.GREETING = "Bonjour ${name}, pret a commencer a rediger ton journal ?"
-                    } else if (objective == 'Redecorer la maison') {
-                        env.GREETING = "Bonjour ${name}, es-tu pret a redécorer ta maison ?"
-                    } else if (objective == 'Prendre soin de soi') {
-                        env.GREETING = "Bonjour ${name}, n'oublie pas de prendre soin de toi !"
-                    } else if (objective == 'Faire un marathon') {
-                        env.GREETING = "Bonjour ${name}, l'entrainement pour ton marathon commence maintenant !"
-                    } else if (objective == 'Apprendre a jouer d\'un instrument') {
-                        env.GREETING = "Bonjour ${name}, c'est l'heure d'apprendre un instrument !"
-                    }
+                    env.GREETING = "Bonjour ${name}, ton objectif pour ce mois est : ${objective}"
                     echo "${env.GREETING}"
                 }
             }
