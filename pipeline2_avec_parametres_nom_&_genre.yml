@@ -3,7 +3,6 @@ pipeline {
 
     parameters {
         string(name: 'USER_NAME', defaultValue: '', description: 'Quel est ton prenom ?')
-        booleanParam(name: 'SKIP_TEST', description: 'Veux-tu sauter l\'execution des tests ?')
         booleanParam(name: 'DAILY_REMINDER', description: 'Souhaites-tu recevoir un rappel quotidien ?')
         booleanParam(name: 'ENCOURAGEMENTS', description: 'Souhaites-tu recevoir des encouragements ?')
         choice(name: 'OBJECTIVE', choices: [
@@ -29,14 +28,42 @@ pipeline {
                 script {
                     echo "Bonjour ${params.USER_NAME}, ton objectif pour ce mois est : ${params.OBJECTIVE}"
 
+                    // Afficher un rappel quotidien si l'utilisateur le souhaite
                     if (params.DAILY_REMINDER) {
-                        echo "Tu as choisi de recevoir un rappel quotidien !"
+                        def reminders = [
+                            "Aujourd’hui, fais un petit pas vers une meilleure version de toi-même.",
+                            "Un jour à la fois. L’important, c’est d’avancer.",
+                            "Ce que tu fais aujourd’hui construit ton demain.",
+                            "N’oublie pas : chaque effort compte, même le plus petit.",
+                            "Prends soin de toi, tu es ta priorité.",
+                            "Tu es capable de grandes choses. Continue.",
+                            "Ce n’est pas la perfection qui compte, c’est la progression.",
+                            "Respire, recentre-toi, et avance avec confiance.",
+                            "Un petit geste aujourd’hui vaut mieux qu’un grand projet jamais commencé.",
+                            "Sois bienveillant avec toi-même. Tu fais déjà de ton mieux.",
+                            "Rappelle-toi pourquoi tu as commencé.",
+                            "Tu as le droit de ralentir. Le repos fait aussi partie du chemin.",
+                            "Chaque jour est une chance de recommencer.",
+                            "Reste aligné avec ce qui te fait du bien.",
+                            "La constance est plus puissante que l’intensité."
+                        ]
+                        def reminder = reminders[(int)(Math.random() * reminders.size())]
+                        echo "Rappel quotidien : ${reminder}"
                     } else {
                         echo "Tu n'as pas choisi de recevoir un rappel quotidien."
                     }
 
+                    // Afficher des encouragements si l'utilisateur le souhaite
                     if (params.ENCOURAGEMENTS) {
-                        echo "Tu as choisi de recevoir des encouragements !"
+                        def encouragements = [
+                            "Tu peux le faire, ne lâche rien ! 🔥",
+                            "Chaque petit pas te rapproche de ton objectif 🙌",
+                            "Continue comme ça, tu es sur la bonne voie 💯",
+                            "Un jour à la fois, mais avec détermination 💪",
+                            "Bravo pour tes efforts, ils comptent vraiment 👏"
+                        ]
+                        def encouragement = encouragements[(int)(Math.random() * encouragements.size())]
+                        echo "Encouragement : ${encouragement}"
                     } else {
                         echo "Tu n'as pas choisi de recevoir des encouragements."
                     }
@@ -112,14 +139,6 @@ pipeline {
             steps {
                 echo 'Etape de construction de l\'application...'
                 // ex: sh 'npm install' ou './gradlew build' pour votre app
-            }
-        }
-
-        stage('TEST') {
-            steps {
-                echo 'Execution des tests unitaires et d\'interface...'
-                // ex: sh 'npm test' ou './gradlew test'
-                // Ajoutez ici des tests specifiques, comme la verification de la fonctionnalite de notifications ou d'objectifs atteints.
             }
         }
 
